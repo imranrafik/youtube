@@ -39,9 +39,30 @@ a{
     display: block;
     opacity: 1;
     padding: 0 30px;
+    position: fixed;
+    left: 270px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: all 0.3s ease;
 }
-.main-content{
- padding-left: 270px;
+.section.back-section{
+    z-index: 1;
+}
+.section.active{
+    z-index: 2;
+    opacity: 1;
+    animation: slideSection 1s ease;
+}
+@keyframes slideSection{
+    0%{
+        transform: translateX(100%);
+    }100%{
+        transform: translateX(0%);
+    }
 }
 .hidden{
     display: none !important;
@@ -125,6 +146,7 @@ a{
     align-items: center;
     justify-content: center;
     border-right: 1px solid var(--bg-black-50);
+    transition: all 0.3s ease;
 }
 .aside .logo{
     position: absolute;
@@ -175,6 +197,7 @@ a{
     display: none;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
 }
 .aside .nav-toggler span{
     height: 2px;
@@ -182,6 +205,9 @@ a{
     background: var(--skin-color);
     display: inline-block;
     position: relative;
+}
+.aside .nav-toggler.open span{
+    background-color: transparent;
 }
 .aside .nav-toggler span::before{
     content: '';
@@ -192,6 +218,10 @@ a{
     top: -6px;
     left: 0;
 }
+.aside .nav-toggler.open span::before{
+    transform: rotate(45deg);
+    top: 0;
+}
 .aside .nav-toggler span::after{
     content: '';
     height: 2px;
@@ -200,6 +230,10 @@ a{
     position: absolute;
     top: 6px;
     left: 0;
+}
+.aside .nav-toggler.open span::after{
+    transform: rotate(-45deg);
+    top: 0;
 }
 .aside .nav{
     margin-top: 50px;
@@ -518,9 +552,9 @@ height: 400px;
     max-width: 33.33%;
     margin-bottom: 30px;
 }
-.portfolio .portfolio-item-inner{
-    border: 6px solid var(--bg-black-100);
-    overflow: hidden;
+.portfolio .portfolio-item{
+  
+   overflow: hidden;
     cursor: pointer;
 }
 .portfolio .portfolio-item-inner .portfolio-img img{
@@ -613,12 +647,26 @@ height: 400px;
 
 
 /*responsive*/
-@media(max-width:1199px){
-    .aside{
-        left: -270px;
-    }
+@media(max-width:1165px){
+   
     .main-content{
         padding-left: 0;
+    }
+    .aside .nav-toggler{
+        display: flex;
+        left: 30px;
+    }
+    .aside.open{
+        left: 0;
+    }
+    .aside .nav-toggler.open{
+        left: 300px;
+    }
+    .section{
+        left: 0;
+    }
+    .section.open{
+        left: 270px;
     }
     .about .about-content .personal-info .info-item p span{
         display: block;
@@ -639,6 +687,9 @@ height: 400px;
         flex: 0 0 50%;
         max-width: 50%;
      }
+     .aside{
+        left: -270px;
+    }
 }
 @media(max-width:767px){
     .contact .contact-form .col-6,
@@ -652,6 +703,7 @@ height: 400px;
         flex: 0 0 100%;
         max-width: 100%;
     }
+    
 
 }
 
@@ -659,12 +711,86 @@ height: 400px;
 
 
 /*other design*/
-.work{
-    transition: all 0.5s ease;
+.portfolio-img{
+    position: relative;
 }
- .work:hover img{
-    transform: scale(1.1);
- }
-  .work:hover .layer{
-     height: 100%;
- }
+.layer{
+    width: 100%;
+    height:0;
+    background: linear-gradient(rgba(0,0,0,0.6),#ff004f);
+    position: absolute;
+    right: 0;
+    top: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    font-size: 14px;
+    transition: height 0.5s;
+    color: white;
+    z-index: 99;
+}
+
+.layer h3{
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+.layer p{
+    font-size: 20px;
+    font-weight: 500;
+}
+.layer a{
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 60px;
+    color: #ff004f;
+    background: #fff;
+    width: 60px;
+    height: 60px;border-radius: 50%;
+    text-align: center;
+    z-index: 99;
+}
+
+.portfolio-img:hover .layer{
+    height: 100%;
+}
+.portfolio-img img{
+    transition: all 0.3s linear;
+   z-index: 2;
+   position: relative;
+}
+
+.portfolio-img::after{
+   content: '';
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%,-50%)rotate(45deg);
+   height: 900px;
+   width: 200px;
+   background: linear-gradient(to right,#45f3ff,#ff2770);
+    display: none;
+   z-index: 1;
+}
+.portfolio-img:hover::after{
+    animation: move 2.5s linear infinite;
+    display: block;
+}
+@keyframes move{
+    100%{
+        transform: translate(-50%,-50%)rotate(225deg);
+    }
+}
+.portfolio-item{
+    padding: 8px 8px;
+    
+    
+}
+.portfolio-img .shot{
+    height: 446px;
+}
